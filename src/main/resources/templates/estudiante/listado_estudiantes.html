@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    </head>
+
+<body>
+	<header th:replace="~{plantillas/principal :: header}"></header>
+
+	<div class="container py-4">
+		<div class="card bg-light">
+			<div class="card-header">
+				<h3 class="text-secondary" th:text="${titulo}"></h3>
+			</div>
+			<div class="card-body shadow-lg p-3">
+				<h4 class="card-title">
+					<a class="btn btn-outline-success btn-sm" th:href="@{/academia/nuevoestudiante}">Crear estudiante</a>
+				</h4>
+				<table class="table table-striped table-sm" th:if="${not #lists.isEmpty(estudiantes)}">
+					<tr>
+						<th>Id.</th>
+						<th>Identificación</th>
+						<th>Apellidos</th>
+						<th>Nombres</th>
+						<th class="text-center">Semestre actual</th>
+						<th class="text-center">Acciones</th>
+					</tr>
+					<tr th:each="est : ${estudiantes}">
+						<td><a th:href="@{/academia/consultarestudiante/} + ${est.id}" 
+							th:text="${#numbers.formatInteger(est.id, 3)}" class="btn btn-outline-secondary btn-xs"></a></td>
+						<td th:text="${est.identificacion}"></td>
+						<td th:text="${est.apellidos}"></td>
+						<td th:text="${est.nombres}"></td>
+						<td th:text="${#numbers.formatInteger(est.semestre_actual, 1, 'POINT')}" class="text-right pr-2"></td>
+						<td class="text-center">
+
+							<a th:href="@{/academia/facturanueva/} + ${est.id}" title="facturar">
+								<i class="bi-file-spreadsheet" style="color: mediumseagreen"></i></a>&nbsp;
+							<a th:href="@{/academia/modificarestudiante/} + ${est.id}" title="editar">
+								<i class="bi-pencil-fill" style="color: cornflowerblue"></i></a>&nbsp;
+							<a th:href="@{/academia/eliminarestudiante/} + ${est.id}" title="eliminar"
+								onclick="return confirm('Está seguro de eliminar el estudiante ?')">
+								<i class="bi-eraser-fill" style="color: indianred"></i></a>
+						</td>
+					</tr>
+				</table>
+				<div class="alert alert-warning" th:if="${#lists.isEmpty(estudiantes)}">No hay estudiantes registrados</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="~{plantillas/principal :: footer}"></footer>
+</body>
+</html>

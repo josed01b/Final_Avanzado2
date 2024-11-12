@@ -1,10 +1,13 @@
 package com.academia.academia.model.entity;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,7 +27,8 @@ public class Asignatura {
     @Column(length = 50)
     private String departamento;
 
-    private long plan_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PlanEstudio planEstudio;
 
     public Asignatura() {
     }
@@ -67,14 +71,5 @@ public class Asignatura {
     public void setDepartamento(String departamento) {
         this.departamento = departamento;
     }
-
-    public long getPlan_id() {
-        return plan_id;
-    }
-
-    public void setPlan_id(long plan_id) {
-        this.plan_id = plan_id;
-    }
-
     
 }
